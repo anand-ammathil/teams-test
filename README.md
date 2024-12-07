@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Setup and Run Guide
 
-## Getting Started
+This project is built using Next.js.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Before you begin, ensure you have met the following requirements:
+- You have installed Node.js and npm.
+- You have a running instance of a PostgreSQL database.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Run the db.sql in postgres to create the required tables
+3. Create an .env file for DB credentials and API path (refer: example.env)
+4. Run npm install followed by npm run build and npm run start
+5. By default app will run at localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Query Design Decisions
 
-## Learn More
+The app is very simple and most of the queries are just to satisfy the CRUD operations except the one query to disply the hierarchical team structures
 
-To learn more about Next.js, take a look at the following resources:
+### Recursive Queries for Team Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To efficiently manage hierarchical team structures, we use recursive queries. This allows me to fetch nested team data in a single query, reducing the need for multiple database calls. The recursive query is implemented in the 'src/pages/api/teams/index.ts' file.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technical choices rationale
+I choose nextJs as the framework because am familiarize with it and to do the assignment quickly. and can have api also in the same project.
+I used mix of server side rendering and client rendering just to demo the features
+used package 'pg' for database raw querying
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes on Production Deployment
+Using more secure method of storing secrets such as AWS secrets manager
+Moving to container based approach for easy distribution and scaling
